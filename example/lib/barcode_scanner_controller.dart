@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -16,7 +17,7 @@ class _BarcodeScannerWithControllerState
   String? barcode;
 
   MobileScannerController controller = MobileScannerController(
-    torchEnabled: true,
+    torchEnabled: false,
     // formats: [BarcodeFormat.qrCode]
     // facing: CameraFacing.front,
   );
@@ -40,8 +41,13 @@ class _BarcodeScannerWithControllerState
                 //   facing: CameraFacing.front,
                 // ),
                 onDetect: (barcode, args) {
+                  final String bc = barcode.rawValue.toString();
                   setState(() {
-                    this.barcode = barcode.rawValue;
+                    //this.barcode = barcode.rawValue;
+                    this.barcode =
+                        bc.length > 32 ? bc.substring(bc.length - 32) : bc;
+                    //this.barcode = barcode.type.toString().substring(0, 32);
+                    Clipboard.setData(ClipboardData(text: barcode.rawValue));
                   });
                 },
               ),
@@ -89,7 +95,15 @@ class _BarcodeScannerWithControllerState
                             : const Icon(Icons.play_arrow),
                         iconSize: 32.0,
                         onPressed: () => setState(() {
-                          isStarted ? controller.stop() : controller.start();
+                          if (isStarted) {
+                            controller.stop();
+                          } else {
+                            setState(() {
+                              barcode = null;
+                            });
+                            controller.start();
+                          }
+                          //isStarted ? controller.stop() : controller.start();
                           isStarted = !isStarted;
                         }),
                       ),
