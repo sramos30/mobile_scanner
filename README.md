@@ -3,6 +3,9 @@
 # https://github.com/juliansteenbakker/mobile_scanner.git
 # git@github.com:sramos30/mobile_scanner.git
 
+- https://developers.google.com/ml-kit/vision/barcode-scanning/android
+- 
+
 
 [![pub package](https://img.shields.io/pub/v/mobile_scanner.svg)](https://pub.dev/packages/mobile_scanner)
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
